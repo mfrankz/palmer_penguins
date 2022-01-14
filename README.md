@@ -14,6 +14,7 @@ penguins
 library(car)
 library(performance)
 library(dplyr)
+library(emmeans)
 ```
 
 ### 2. Before analyzing our data, let's develop a research question. I am interested in finding a model that can be used to predict the body mass of penguins. We will first plot the distribution of body mass to get an idea of whether we can use a linear model.
@@ -104,6 +105,10 @@ ggplot(data=descriptives, aes(x=species, y=avg_mass, fill=species))+
 ```
 Anova(model4, type="III")
 summary(model4)
+```
+The output here shows that there is a significant main effect of species and sex, and a species * sex interaction. You can use the emmeans() function to better understand the direction/magnitude of these effects.
+```
+emmeans(model4, pairwise~species+sex)
 ```
                       
 
