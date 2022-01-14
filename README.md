@@ -106,7 +106,7 @@ ggplot(data=descriptives, aes(x=species, y=avg_mass, fill=species))+
 Anova(model4, type="III")
 summary(model4)
 ```
-The output here shows that there is a significant main effect of species and sex, and a species * sex interaction. You can use the emmeans() function to better understand the direction/magnitude of these effects.
+The output here shows that there is a significant main effect of species and sex, and a species * sex interaction. You can use the emmeans() function to better understand the direction/magnitude of these effects. The plot can also help you determine the direction of effects.
 ```
 emmeans(model4, pairwise~species+sex)
 ```
