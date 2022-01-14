@@ -3,7 +3,7 @@ This tutorial uses a model comparison approach to analyze a publicly available d
 
 To begin, we will load packages and import the dataset 
 
-### 1. Set up and load packages in RStudio: 
+### 1. Import data and packages in RStudio: 
 ```
 #load palmer penguins data
 install.packages("palmerpenguins")
