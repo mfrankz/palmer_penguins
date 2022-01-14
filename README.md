@@ -105,13 +105,6 @@ ggplot(data=descriptives, aes(x=species, y=avg_mass, fill=species))+
 Anova(model4, type="III")
 summary(model4)
 ```
-The output here is:
-Response: body_mass_g
-               Sum Sq  Df  F value    Pr(>F)    
-(Intercept) 828480899   1 8654.649 < 2.2e-16 
-species      60350016   2  315.220 < 2.2e-16 
-sex          16613442   1  173.551 < 2.2e-16 
-species:sex   1676557   2    8.757 0.0001973 
-Residuals    31302628 327                       
+                      
 
 
