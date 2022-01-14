@@ -21,7 +21,10 @@ library(dplyr)
 #plot distribution of body mass
 hist(penguins$body_mass_g)
 ```
+<img src="https://user-images.githubusercontent.com/88938223/129901354-1b5820e7-1d83-4896-a310-b962b9abdd8f.png" width="500">
+
 Body mass looks relatively normally distributed, so we will build linear regression models
+
 
 3. Let's consider three "demographic" variables: species, gender, and island of origin. I am going to create linear models with different possible combinations of these variables. 
 ```
