@@ -1,9 +1,9 @@
 # Data tidying, visualization, and analysis with the Palmer Penguins Dataset 
-### This tutorial uses a model comparison approach to analyze a publicly available dataset in R. Tidyverse tools are used for data cleaning, and ggplot2 and the performance library are used for data visualization. 
+This tutorial uses a model comparison approach to analyze a publicly available dataset in R. Tidyverse tools are used for data cleaning, and ggplot2 and the performance library are used for data visualization. 
 
 To begin, we will load packages and import the dataset 
 
-1. Set up and load packages in RStudio: 
+### 1. Set up and load packages in RStudio: 
 ```
 #load palmer penguins data
 install.packages("palmerpenguins")
@@ -16,7 +16,7 @@ library(performance)
 library(dplyr)
 ```
 
-2. Before analyzing our data, let's develop a research question. I am interested in finding a model that can be used to predict the body mass of penguins. We will first plot the distribution of body mass to get an idea of whether we can use a linear model.
+### 2. Before analyzing our data, let's develop a research question. I am interested in finding a model that can be used to predict the body mass of penguins. We will first plot the distribution of body mass to get an idea of whether we can use a linear model.
 ```
 #plot distribution of body mass
 hist(penguins$body_mass_g)
@@ -26,7 +26,7 @@ hist(penguins$body_mass_g)
 Body mass looks relatively normally distributed, so we will build linear regression models
 
 
-3. Let's consider three "demographic" variables: species, gender, and island of origin. I am going to create linear models with different possible combinations of these variables. 
+### 3. Let's consider three "demographic" variables: species, gender, and island of origin. I am going to create linear models with different possible combinations of these variables. 
 ```
 #create models for model comparison
 m1<-lm(body_mass_g~species, data=penguins)
@@ -38,7 +38,7 @@ m6<-lm(body_mass_g~sex*island, data=penguins)
 m7<-lm(body_mass_g~species*sex*island, data=penguins)
 ```
 
-4. Instead of assessing the effects of these variables using a null-hypothesis testing approach, we will compare the models using various metrics of model strength (AIC, BIC, R squared, and RMSE). The performance library is used to compare these metrics across models.
+### 4. Instead of assessing the effects of these variables using a null-hypothesis testing approach, we will compare the models using various metrics of model strength (AIC, BIC, R squared, and RMSE). The performance library is used to compare these metrics across models.
 ```
 #create comparison of metrics
 comp<-compare_performance(m1,m2,m3,m4,m5,m6,m7,metrics=c("AIC", "BIC",  "R2", "RMSE"), rank=TRUE)
@@ -69,19 +69,19 @@ plot(comp, size=2)+
 
 We can see from this plot that model4 (species * sex) is the strongest approach for predicting body mass. We will now further inspect this model. 
 
-5. Check the linear regression assumptions using the performance library
+### 5. Check the linear regression assumptions using the performance library
 ```
 check_model(model4)
 ```
 
-6. Calculate average body mass across species and sex
+### 6. Calculate average body mass across species and sex
 ```
 descriptives<-na.omit(penguins)%>% 
   group_by(species,sex) %>% 
   dplyr::summarize(avg_mass=mean(body_mass_g))
 ```
 
-7. Plot the data 
+### 7. Plot the data 
 ```
 ggplot(data=descriptives, aes(x=species, y=avg_mass, fill=species))+
   geom_bar(stat="identity", color="black")+
@@ -98,8 +98,9 @@ ggplot(data=descriptives, aes(x=species, y=avg_mass, fill=species))+
           panel.grid.minor = element_blank(),
           legend.position = "none")
 ```
+<img src="https://github.com/mfrankz/palmer_penguins/blob/main/penguin_mass.png" width="500">
 
-8. Conduct null-hypothesis testing and view main effects and interaction of species and sex
+### 8. Conduct null-hypothesis testing and view main effects and interaction of species and sex
 ```
 Anova(model4, type="III")
 summary(model4)
