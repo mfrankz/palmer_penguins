@@ -65,6 +65,7 @@ plot(comp, size=2)+
                    labels=c("AIC", "BIC", expression(R^2), "RMSE"))+
   my_theme
 ```
+<img src="https://github.com/mfrankz/palmer_penguins/blob/main/penguin_comparisons.png"width="500">
 
 We can see from this plot that model4 (species * sex) is the strongest approach for predicting body mass. We will now further inspect this model. 
 
