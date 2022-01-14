@@ -68,7 +68,7 @@ plot(comp, size=2)+
 ```
 <img src="https://github.com/mfrankz/palmer_penguins/blob/main/penguin_comparisons.png" width="500">
 
-We can see from this plot that model4 (species * sex) is the strongest approach for predicting body mass. We will now further inspect this model. 
+We can see from this plot that model4 (species * sex) is the strongest approach for predicting body mass across every metric of model strength. Adding the island variable (model 7) does not substantially improve the R^squared or RMSE, and worsens the AIC and BIC (these metrics are penalized when additional predictors are added to the model).  We will now further inspect this model. 
 
 ### 5. Check the linear regression assumptions using the performance library
 ```
