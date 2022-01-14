@@ -27,7 +27,7 @@ hist(penguins$body_mass_g)
 Body mass looks relatively normally distributed, so we will build linear regression models
 
 
-### 3. Let's consider three "demographic" variables: species, gender, and island of origin. I am going to create linear models with different possible combinations of these variables. 
+### 3. Let's consider three "demographic" variables: species, sex, and island of origin. I am going to create linear models with different possible combinations of these variables. 
 ```
 #create models for model comparison
 m1<-lm(body_mass_g~species, data=penguins)
