@@ -21,7 +21,7 @@ library(dplyr)
 #plot distribution of body mass
 hist(penguins$body_mass_g)
 ```
-<img src="https://user-images.githubusercontent.com/88938223/129901354-1b5820e7-1d83-4896-a310-b962b9abdd8f.png" width="500">
+<img src="https://github.com/mfrankz/palmer_penguins/blob/main/mass_dist.png" width="300">
 
 Body mass looks relatively normally distributed, so we will build linear regression models
 
@@ -64,7 +64,6 @@ plot(comp, size=2)+
   scale_x_discrete(breaks=c("AIC_wt","BIC_wt","R2", "RMSE"),
                    labels=c("AIC", "BIC", expression(R^2), "RMSE"))+
   my_theme
-ggsave("penguin_comparisons.png", width = 20, height = 20, units = "cm")
 ```
 
 We can see from this plot that model4 (species * sex) is the strongest approach for predicting body mass. We will now further inspect this model. 
