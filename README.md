@@ -1,5 +1,5 @@
 # Data tidying, visualization, and analysis with the Palmer Penguins Dataset 
-This tutorial uses a model comparison approach to analyze a publicly available dataset in R. Tidyverse tools are used for data cleaning, and ggplot2 and the performance library are used for data visualization. 
+This tutorial demonstrates how to use a model comparison approach with a publicly available dataset in R. Tidyverse tools are used for data cleaning, and ggplot2 and the performance library are used for data visualization. 
 
 To begin, we will load packages and import the dataset 
 
@@ -17,7 +17,7 @@ library(dplyr)
 library(emmeans)
 ```
 
-### 2. Before analyzing our data, let's develop a research question. I am interested in finding a model that can be used to predict the body mass of penguins. We will first plot the distribution of body mass to get an idea of whether we can use a linear model.
+### 2. A model comparison approach can be used as an alternative to classic null-hypothesis testing. Instead of placing emphasis on significance testing, you can create different models (using the same dataset) and compare the models using a fit metric, such as AIC or BIC. To illustrate this approach with Palmer Penguins, let's develop a research question. I am interested in finding a model that can be used to predict the body mass of penguins. We will first plot the distribution of body mass to get an idea of whether we can use a linear model.
 ```
 #plot distribution of body mass
 hist(penguins$body_mass_g)
@@ -27,7 +27,7 @@ hist(penguins$body_mass_g)
 Body mass looks relatively normally distributed, so we will build linear regression models
 
 
-### 3. Let's consider three "demographic" variables: species, sex, and island of origin. I am going to create linear models with different possible combinations of these variables. 
+### 3. Let's consider three variables that might be predictive of body mass: species, sex, and island of origin. I am going to create linear models with different possible combinations of these variables. 
 ```
 #create models for model comparison
 m1<-lm(body_mass_g~species, data=penguins)
