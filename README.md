@@ -17,7 +17,7 @@ library(dplyr)
 library(emmeans)
 ```
 
-### 2. A model comparison approach can be used as an alternative to classic null-hypothesis testing. Instead of placing emphasis on significance testing, you can create different models (using the same dataset) and compare the models using a fit metric, such as AIC or BIC. To illustrate this approach with Palmer Penguins, let's develop a research question. I am interested in finding a model that can be used to predict the body mass of penguins. We will first plot the distribution of body mass to get an idea of whether we can use a linear model.
+### 2. A model comparison approach can be used as an alternative to classic null-hypothesis testing. Instead of placing emphasis on significance testing, you can create different statistical models (using the same data) and compare those models using a fit metric, such as AIC or BIC. To illustrate this approach with Palmer Penguins, let's develop a research question. I am interested in finding a model that can be used to predict the body mass of penguins. We will first plot the distribution of body mass to get an idea of whether we can use a linear model.
 ```
 #plot distribution of body mass
 hist(penguins$body_mass_g)
@@ -39,7 +39,7 @@ m6<-lm(body_mass_g~sex*island, data=penguins)
 m7<-lm(body_mass_g~species*sex*island, data=penguins)
 ```
 
-### 4. Instead of assessing the effects of these variables using a null-hypothesis testing approach, we will compare the models using various metrics of model strength (AIC, BIC, R squared, and RMSE). The performance library is used to compare these metrics across models.
+### 4. Instead of assessing the effects of these variables using a null-hypothesis testing approach, we will compare the models using various metrics of model strength (AIC, BIC, R squared, and RMSE). The performance library is used to compare these metrics across models by generating a ranked score (i.e., larger values in the plot signify better model strength).
 ```
 #create comparison of metrics
 comp<-compare_performance(m1,m2,m3,m4,m5,m6,m7,metrics=c("AIC", "BIC",  "R2", "RMSE"), rank=TRUE)
@@ -68,7 +68,7 @@ plot(comp, size=2)+
 ```
 <img src="https://github.com/mfrankz/palmer_penguins/blob/main/penguin_comparisons.png" width="500">
 
-We can see from this plot that model4 (species * sex) is the strongest approach for predicting body mass across every metric of model strength. Adding the island variable (model 7) does not substantially improve the R^squared or RMSE, and worsens the AIC and BIC (these metrics are penalized when additional predictors are added to the model).  We will now further inspect this model. 
+We can see from this plot that model4 (species * sex) is the strongest approach for predicting body mass across every metric of model strength. Adding the island variable (model 7) does not substantially improve the R^squared or RMSE, and worsens the AIC and BIC (these metrics control for multiple predictors).  We will now further inspect this model. 
 
 ### 5. Check the linear regression assumptions using the performance library
 ```
