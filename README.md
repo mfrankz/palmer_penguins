@@ -68,11 +68,11 @@ plot(comp, size=2)+
 ```
 <img src="https://github.com/mfrankz/palmer_penguins/blob/main/penguin_comparisons.png" width="500">
 
-We can see from this plot that model4 (species * sex) is the strongest approach for predicting body mass across every metric of model strength. Adding the island variable (model 7) does not substantially improve the R^squared or RMSE, and worsens the AIC and BIC (these metrics control for multiple predictors).  We will now further inspect this model. 
+We can see from this plot that m4 (species * sex) is the strongest approach for predicting body mass across every metric of model strength. Adding the island variable (model 7) does not substantially improve the R^squared or RMSE, and worsens the AIC and BIC (these metrics control for multiple predictors).  We will now further inspect this model. 
 
 ### 5. Check the linear regression assumptions using the performance library
 ```
-check_model(model4)
+check_model(m4)
 ```
 
 ### 6. Calculate average body mass across species and sex
@@ -103,12 +103,12 @@ ggplot(data=descriptives, aes(x=species, y=avg_mass, fill=species))+
 
 ### 8. Conduct null-hypothesis testing and view main effects and interaction of species and sex
 ```
-Anova(model4, type="III")
-summary(model4)
+Anova(m4, type="III")
+summary(m4)
 ```
 The output here shows that there is a significant main effect of species and sex, and a species * sex interaction. You can use the emmeans() function to better understand the direction/magnitude of these effects. The plot can also help you determine the direction of effects.
 ```
-emmeans(model4, pairwise~species+sex)
+emmeans(m4, pairwise~species+sex)
 ```
                       
 
