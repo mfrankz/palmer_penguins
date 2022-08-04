@@ -17,7 +17,51 @@ library(dplyr)
 library(emmeans)
 ```
 
-### 2. A model comparison approach can be used as an alternative to classic null-hypothesis testing. Instead of placing emphasis on significance testing, you can create different statistical models (using the same data) and compare those models using a fit metric, such as AIC or BIC. To illustrate this approach with Palmer Penguins, let's develop a research question. I am interested in finding a model that can be used to predict the body mass of penguins. We will first plot the distribution of body mass to get an idea of whether we can use a linear model.
+### 2. Visualize relationships among variables using standard Pearson correlations. We will create a correlation table and plot the results in a heatmap.
+```
+#create correlation table
+cormat <- round(cor(penguins[, c(3:6)], use = "pairwise.complete.obs"),2)
+head(cormat)
+
+# Get inverse of lower triangle 
+get_lower_tri<-function(cormat){
+  cormat[apply(lower.tri(cormat), 1, rev)] <- NA
+  return(cormat)
+}
+
+#Order data
+reorder_cormat <- function(cormat){
+  # Use correlation between variables as distance
+  dd <- as.dist((1-cormat)/2)
+  hc <- hclust(dd)
+  cormat <-cormat[hc$order, hc$order]
+}
+cormat <- reorder_cormat(cormat)
+cormat<-cormat[,c(4:1)] #change number 4 to your number of rows in cormat
+
+#select either the lower triangle of the matrix 
+lower_tri <- get_lower_tri(cormat)
+melted_cormat <- melt(lower_tri, na.rm = TRUE)
+
+## Step 5. Create plot
+ggplot(melted_cormat, aes(Var2, Var1, fill = value))+
+  geom_tile(color = "white")+
+  scale_fill_gradient2(high = "#0A8819", low = "#C11919", mid = "white", 
+                       midpoint = 0, limit = c(-1,1), space = "Lab", 
+                       name="Pearson\nCorrelation") +
+  theme_minimal()+ 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+                                   size = 12, hjust = 1))+
+  coord_fixed()+
+  geom_text(aes(Var2, Var1, label = value), color = "black", size = 3) +
+  guides(fill = guide_colorbar(barwidth = 3, barheight = 8,
+                               title.position = "top", title.hjust = 0.5))+
+  my_theme
+ggsave("heatmap.png", width = 25, height = 25, units = "cm")
+```
+<img src="https://github.com/mfrankz/palmer_penguins/blob/main/heatmap.png" width="300">
+
+### 3. A model comparison approach can be used as an alternative to classic null-hypothesis testing. Instead of placing emphasis on significance testing, you can create different statistical models (using the same data) and compare those models using a fit metric, such as AIC or BIC. To illustrate this approach with Palmer Penguins, let's develop a research question. I am interested in finding a model that can be used to predict the body mass of penguins. We will first plot the distribution of body mass to get an idea of whether we can use a linear model.
 ```
 #plot distribution of body mass
 hist(penguins$body_mass_g)
@@ -27,7 +71,7 @@ hist(penguins$body_mass_g)
 Body mass looks relatively normally distributed, so we will build linear regression models
 
 
-### 3. Let's consider three variables that might be predictive of body mass: species, sex, and island of origin. I am going to create linear models with different possible combinations of these variables. 
+### 4. Let's consider three variables that might be predictive of body mass: species, sex, and island of origin. I am going to create linear models with different possible combinations of these variables. 
 ```
 #create models for model comparison
 m1<-lm(body_mass_g~species, data=penguins)
@@ -39,7 +83,7 @@ m6<-lm(body_mass_g~sex*island, data=penguins)
 m7<-lm(body_mass_g~species*sex*island, data=penguins)
 ```
 
-### 4. Instead of assessing the effects of these variables using a null-hypothesis testing approach, we will compare the models using various metrics of model strength (AIC, BIC, R squared, and RMSE). The performance library is used to compare these metrics across models by generating a ranked score (i.e., larger values in the plot signify better model strength).
+### 5. Instead of assessing the effects of these variables using a null-hypothesis testing approach, we will compare the models using various metrics of model strength (AIC, BIC, R squared, and RMSE). The performance library is used to compare these metrics across models by generating a ranked score (i.e., larger values in the plot signify better model strength).
 ```
 #create comparison of metrics
 comp<-compare_performance(m1,m2,m3,m4,m5,m6,m7,metrics=c("AIC", "BIC",  "R2", "RMSE"), rank=TRUE)
@@ -70,19 +114,19 @@ plot(comp, size=2)+
 
 We can see from this plot that m4 (species * sex) is the strongest approach for predicting body mass across every metric of model strength. Adding the island variable (model 7) does not substantially improve the R^squared or RMSE, and worsens the AIC and BIC (these metrics control for multiple predictors).  We will now further inspect this model. 
 
-### 5. Check the linear regression assumptions using the performance library
+### 6. Check the linear regression assumptions using the performance library
 ```
 check_model(m4)
 ```
 
-### 6. Calculate average body mass across species and sex
+### 7. Calculate average body mass across species and sex
 ```
 descriptives<-na.omit(penguins)%>% 
   group_by(species,sex) %>% 
   dplyr::summarize(avg_mass=mean(body_mass_g))
 ```
 
-### 7. Plot the data 
+### 8. Plot the data 
 ```
 ggplot(data=descriptives, aes(x=species, y=avg_mass, fill=species))+
   geom_bar(stat="identity", color="black")+
@@ -101,7 +145,7 @@ ggplot(data=descriptives, aes(x=species, y=avg_mass, fill=species))+
 ```
 <img src="https://github.com/mfrankz/palmer_penguins/blob/main/penguin_mass.png" width="500">
 
-### 8. Conduct null-hypothesis testing and view main effects and interaction of species and sex
+### 9. Conduct null-hypothesis testing and view main effects and interaction of species and sex
 ```
 Anova(m4, type="III")
 summary(m4)
