@@ -59,7 +59,7 @@ ggplot(melted_cormat, aes(Var2, Var1, fill = value))+
   my_theme
 ggsave("heatmap.png", width = 25, height = 25, units = "cm")
 ```
-<img src="https://github.com/mfrankz/palmer_penguins/blob/main/heatmap.png" width="300">
+<img src="https://github.com/mfrankz/palmer_penguins/blob/main/heatmap.png" width="600">
 
 ### 3. A model comparison approach can be used as an alternative to classic null-hypothesis testing. Instead of placing emphasis on significance testing, you can create different statistical models (using the same data) and compare those models using a fit metric, such as AIC or BIC. To illustrate this approach with Palmer Penguins, let's develop a research question. I am interested in finding a model that can be used to predict the body mass of penguins. We will first plot the distribution of body mass to get an idea of whether we can use a linear model.
 ```
